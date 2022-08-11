@@ -1,32 +1,72 @@
-
 import mqtt from 'mqtt'
 
-const options = {
-    host: 'b5b25d8f799e49218df204af1475e90e.s2.eu.hivemq.cloud',
-    port: 8883,
-    username: 'yangshuai',
-    password: '111aaa@@'
+export interface MqttConnOpt extends mqtt.IClientOptions { }
+
+export declare type OnMessageFunc = (topic: string, payload: Buffer) => void
+
+declare class Topic {
+    public topic: string;
+    public qos: 0 | 1 | 2;
 }
 
-// initialize the MQTT client
-const client = mqtt.connect(options);
+export default class MQTT {
+    mqclient: mqtt.MqttClient;
+    brokerHost: string;
+    brokerPort: number;
+    subscribeTopics: Array<Topic>;
 
-// setup the callbacks
-client.on('connect', function () {
-    console.log('Connected');
-});
+    constructor(host?: string | any, port?: number) {
+        this.brokerHost = host;
+        this.brokerPort = port;
+        this.subscribeTopics = new Array<Topic>();
+    }
 
-client.on('error', function (error) {
-    console.log(error);
-});
+    /**
+    * 订阅主题
+    */
+    public subscribe(topic: string, qos: 0 | 1 | 2) {
+        this.subscribeTopics.push({ topic: topic, qos: qos });
+        if (this.is_connected()) {
+            this.mqclient.subscribe(topic, { qos: qos });
+        }
+    }
 
-client.on('message', function (topic, message) {
-    // called each time a message is received
-    console.log('Received message:', topic, message.toString());
-});
+    /**
+    * 是否已连接到服务器
+    */
+    public is_connected() {
+        return this.mqclient.connected == true;
+    }
 
-// subscribe to topic 'my/test/topic'
-client.subscribe('my/test/topic');
+    /**
+    * 连接到服务器
+    */
+    public connect(opts?: MqttConnOpt, onMessage?: OnMessageFunc) {
+        this.mqclient = mqtt.connect(`ws://${this.brokerHost}:${this.brokerPort}`, opts);   //  我是测试项目使用的是免费的mqtt broker.emqx.io 这里拼接为ws
 
-// publish message 'Hello' to topic 'my/test/topic'
-client.publish('my/test/topic', 'Hello');
+        this.mqclient.on('connect', () => {
+            console.log(`成功连接到服务器[${this.brokerHost}:${this.brokerPort}]`);
+            for (let index = 0; index < this.subscribeTopics.length; index++) {
+                const element = this.subscribeTopics[index];
+                this.mqclient.subscribe(element.topic, { qos: element.qos });
+            }
+        });
+
+        this.mqclient.on('message', (topic: string, message) => {
+            console.log('收到来自', topic, '的消息', message)
+            onMessage && onMessage(topic, message)
+        });
+
+        this.mqclient.on('error', (err: Error) => {
+
+        });
+    }
+
+    /**
+    * 推送数据
+    */
+    public publish(topic: string, message: string, qos: 0 | 1 | 2) {
+        this.mqclient.publish(topic, message, { qos: qos, retain: false })
+    }
+
+}
