@@ -3,7 +3,7 @@
  * @Author: yangshuai u9h_75bugk181@dingtalk.com
  * @Date: 2022-08-04 10:04:01
  * @LastEditors: yangshuai u9h_75bugk181@dingtalk.com
- * @LastEditTime: 2022-08-05 15:24:08
+ * @LastEditTime: 2022-08-12 10:55:52
  * @FilePath: \vue3-test\src\pages\ffmpeg\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -102,7 +102,7 @@ export default defineComponent({
       // 使用 Blob 创建一个指向类型化数组的URL, URL.createObjectURL是new Blob文件的方法,可以生成一个普通的url,可以直接使用,比如用在img.src上
       return blob;
     };
-    const transformUint8ArrayToBase64 = (array): string => {
+    const transformUint8ArrayToBase64 = (array: Uint8Array): string => {
       var binary = "";
       for (var len = array.byteLength, i = 0; i < len; i++) {
         binary += String.fromCharCode(array[i]);
@@ -111,14 +111,11 @@ export default defineComponent({
     };
     const formatTooltip = () => {};
     const bindSelectOriginFile = (e): void => {
-      console.log("data", data);
-      console.log(e);
       data.file = e.target.files[0];
       const url = window.webkitURL.createObjectURL(e.target.files[0]);
       data.oldVideo = url;
     };
     const bindClipBtn = async (): Promise<void> => {
-      console.log("data", data);
       data.message = "Loading ffmeg-core.js";
       await ffmpeg.load();
       data.message = "Start transcoding";
@@ -134,7 +131,6 @@ export default defineComponent({
       );
       data.message = "Complete transcoding";
       const file = ffmpeg.FS("readFile", "test.mp4");
-      console.log("file", file);
       let arrayBuffer = transformUint8ArrayToBase64(file);
       console.log("arrayBuffer", arrayBuffer);
       const blob = toBlob(arrayBuffer);
