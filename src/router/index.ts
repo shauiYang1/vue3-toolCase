@@ -2,7 +2,7 @@
  * @Author: yangshuai u9h_75bugk181@dingtalk.com
  * @Date: 2022-06-16 10:40:38
  * @LastEditors: yangshuai u9h_75bugk181@dingtalk.com
- * @LastEditTime: 2022-10-08 09:48:51
+ * @LastEditTime: 2022-10-17 10:13:41
  * @FilePath: \vue3-test\src\router\index.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -12,6 +12,7 @@ import FFmpeg from "@/pages/ffmpeg/index.vue";
 import Style from "@/pages/style/index.vue";
 import MixBlendMode from "@/pages/style/mixBlendMode.vue";
 import Drag from "@/pages/style/drag.vue";
+import Marquee from "@/pages/style/marquee.vue";
 import MQTT from "@/pages/mqtt/index.vue";
 import TSDemo from "@/pages/tsdemo/index.vue";
 
@@ -40,6 +41,11 @@ export const routes: Array<RouteRecordRaw> = [
         path: "/style/drag",
         name: "拖拽动画",
         component: Drag,
+      },
+      {
+        path: "/style/marquee",
+        name: "广告栏",
+        component: Marquee,
       },
     ],
   },

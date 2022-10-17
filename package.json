@@ -17,9 +17,11 @@
     "lib-flexible": "^0.3.2",
     "mqtt": "^4.3.7",
     "node-polyfill-webpack-plugin": "^2.0.1",
+    "postcss": "^8.4.17",
     "postcss-px2rem": "^0.3.0",
     "vue": "^3.2.13",
     "vue-class-component": "^8.0.0-0",
+    "vue-loader": "^17.0.0",
     "vue-router": "^4.0.16"
   },
   "devDependencies": {
