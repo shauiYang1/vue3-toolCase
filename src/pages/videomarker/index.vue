@@ -2,16 +2,17 @@
  * @Author: yangshuai u9h_75bugk181@dingtalk.com
  * @Date: 2022-10-21 14:48:32
  * @LastEditors: yangshuai u9h_75bugk181@dingtalk.com
- * @LastEditTime: 2022-10-23 11:28:39
+ * @LastEditTime: 2022-10-30 17:18:08
  * @FilePath: \vue3\src\pages\videomarker\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-  <div>
+  <div class="video-content">
     <video ref="video" class="video-js vjs-default-skin" width="600" height="400" controls>
-      <!-- <source src="https://playtv-live.ifeng.com/live/06OLEGEGM4G.m3u8" /> -->
-      <source src="@/assets/video/movie.mp4" />
-      <!-- <source src="http://223.244.87.70:49000/user/10071/2022-10-14/SVID_20221014_174642_1.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=zb-jz/20221021/us-east-1/s3/aws4_request&X-Amz-Date=20221021T131946Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=70aa5ee441a0cb66ae3f39cda46c576d49986fd77d75333e96ceaafb90ba8b31" /> -->
+      <!-- <source src="http://192.168.3.205:9000/user/10010/2022-10-30/mmexport1662801639592.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=zb-jz%2F20221030%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20221030T073154Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=48a80134c89968749cae94c97262f1764e63caa186b7ceb4e9f6aa5597e151a4" /> -->
+      <source :src="" />
+      <!-- <source src="@/assets/video/mmexport1662801639592.mp4" /> -->
+      <!-- <source src="http://192.168.3.205:9000/user/10010/2022-10-30/mmexport1662801639592.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=zb-jz%2F20221030%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20221030T073154Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=48a80134c89968749cae94c97262f1764e63caa186b7ceb4e9f6aa5597e151a4" /> -->
     </video>
   </div>
 </template>
@@ -41,11 +42,21 @@ export default defineComponent({
           volumePanel: {
             inline: false// 将音量横向改为纵向
           }
-        }
-      }
+        },
+      },
+      url:require('@/assets/video/mmexport1662801639592.mp4')
     })
     onMounted(() => {
-      states.player = videojs(document.querySelector('.video-js'),states.option);
+      const videoDom = document.createElement('video');
+      videoDom.className = 'video-js'
+      videoDom.id = 'video'
+      videoDom.style.width = '100%'
+      videoDom.style.height = '80%'
+      // document.querySelector('.video-content').append(videoDom)
+      states.player = videojs(videoDom, states.option);
+      const url = require('@/assets/video/mmexport1662801639592.mp4')
+      // const url = 'http://192.168.3.205:9000/user/10010/2022-10-30/mmexport1662801639592.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=zb-jz%2F20221030%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20221030T073154Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=48a80134c89968749cae94c97262f1764e63caa186b7ceb4e9f6aa5597e151a4'
+      states.player.src(url)
       states.player.markers({
         markerStyle: {
           // 标记样式
@@ -78,6 +89,7 @@ export default defineComponent({
           }
         ]
       })
+      states.player.load();
     })
     return {
       states
