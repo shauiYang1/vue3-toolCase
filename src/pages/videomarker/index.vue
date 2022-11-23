@@ -2,7 +2,7 @@
  * @Author: yangshuai u9h_75bugk181@dingtalk.com
  * @Date: 2022-10-21 14:48:32
  * @LastEditors: yangshuai u9h_75bugk181@dingtalk.com
- * @LastEditTime: 2022-10-30 17:18:08
+ * @LastEditTime: 2022-11-04 09:34:32
  * @FilePath: \vue3\src\pages\videomarker\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -10,7 +10,7 @@
   <div class="video-content">
     <video ref="video" class="video-js vjs-default-skin" width="600" height="400" controls>
       <!-- <source src="http://192.168.3.205:9000/user/10010/2022-10-30/mmexport1662801639592.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=zb-jz%2F20221030%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20221030T073154Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=48a80134c89968749cae94c97262f1764e63caa186b7ceb4e9f6aa5597e151a4" /> -->
-      <source :src="" />
+      <source :src="states.url" />
       <!-- <source src="@/assets/video/mmexport1662801639592.mp4" /> -->
       <!-- <source src="http://192.168.3.205:9000/user/10010/2022-10-30/mmexport1662801639592.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=zb-jz%2F20221030%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20221030T073154Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=48a80134c89968749cae94c97262f1764e63caa186b7ceb4e9f6aa5597e151a4" /> -->
     </video>
@@ -32,7 +32,7 @@ export default defineComponent({
       player: null,
       option: {
         controls: true, // 必填，显示各控制组件
-        autoplay: false, // 是否自动播放
+        autoplay: true, // 是否自动播放
         preload: 'auto', // 预加载
         width: '600px',
         height: '400px',
@@ -44,7 +44,7 @@ export default defineComponent({
           }
         },
       },
-      url:require('@/assets/video/mmexport1662801639592.mp4')
+      url: require('@/assets/video/Big_Buck_Bunny_1080_10s_1MB.mp4')
     })
     onMounted(() => {
       const videoDom = document.createElement('video');
@@ -54,7 +54,7 @@ export default defineComponent({
       videoDom.style.height = '80%'
       // document.querySelector('.video-content').append(videoDom)
       states.player = videojs(videoDom, states.option);
-      const url = require('@/assets/video/mmexport1662801639592.mp4')
+      const url = require('@/assets/video/Big_Buck_Bunny_1080_10s_1MB.mp4')
       // const url = 'http://192.168.3.205:9000/user/10010/2022-10-30/mmexport1662801639592.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=zb-jz%2F20221030%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20221030T073154Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=48a80134c89968749cae94c97262f1764e63caa186b7ceb4e9f6aa5597e151a4'
       states.player.src(url)
       states.player.markers({
