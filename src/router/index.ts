@@ -2,7 +2,7 @@
  * @Author: yangshuai u9h_75bugk181@dingtalk.com
  * @Date: 2022-06-16 10:40:38
  * @LastEditors: yangshuai u9h_75bugk181@dingtalk.com
- * @LastEditTime: 2022-11-02 09:17:08
+ * @LastEditTime: 2022-11-23 11:34:06
  * @FilePath: \vue3-test\src\router\index.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -13,6 +13,7 @@ import Style from "@/pages/style/index.vue";
 import MixBlendMode from "@/pages/style/mixBlendMode.vue";
 import Drag from "@/pages/style/drag.vue";
 import Marquee from "@/pages/style/marquee.vue";
+import ClipPath from "@/pages/style/clipPath.vue";
 import MQTT from "@/pages/mqtt/index.vue";
 import TSDemo from "@/pages/tsdemo/index.vue";
 import VideoMarker from "@/pages/videomarker/index.vue";
@@ -48,6 +49,11 @@ export const routes: Array<RouteRecordRaw> = [
         path: "/style/marquee",
         name: "广告栏",
         component: Marquee,
+      },
+      {
+        path: "/style/clipPath",
+        name: "元素裁剪",
+        component: ClipPath,
       },
     ],
   },
