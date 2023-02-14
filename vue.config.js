@@ -1,23 +1,11 @@
-/*
- * @Author: yangshuai u9h_75bugk181@dingtalk.com
- * @Date: 2022-06-15 16:46:39
- * @LastEditors: yangshuai u9h_75bugk181@dingtalk.com
- * @LastEditTime: 2022-10-30 17:08:48
- * @FilePath: \vue3-test\vue.config.js
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
 const path = require("path");
 const express = require("express");
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
-const px2rem = require('postcss-px2rem');
-// 配置基本大小
-const postcss = px2rem({
-  // 基准大小 baseSize，需要和rem.js中相同
-  remUnit: 192
-})
+
 const {
   defineConfig
 } = require('@vue/cli-service')
+
 module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave: false,
@@ -53,10 +41,19 @@ module.exports = defineConfig({
   },
   css: {
     loaderOptions: {
-      scss: {
-        plugins: [
-          postcss
-        ]
+      sass: {
+        additionalData: '@import "~@/assets/styles/variables.scss"',
+      },
+      postcss: {
+        postcssOptions: {
+          plugins: [
+            require("postcss-pxtorem")({
+              rootValue: 192,//1rem = 192px
+              propList: ['*'],
+              exclude: 'node_modules' //  对于mode_modules中的模块不做编译
+            }),
+          ]
+        }
       }
     }
   }
